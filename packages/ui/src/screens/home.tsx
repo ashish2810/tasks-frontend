@@ -1,49 +1,25 @@
-/** @jsx jsx */
-import { css, jsx } from "@emotion/react";
-import { Button, Card, CircularProgress } from "@material-ui/core";
-import React, { FC, useEffect, useState } from "react";
-import { Position, Stack, StackItem } from "components/stack";
-import { Task } from "@tasks/protos";
+import { css } from "@emotion/react";
+import { AllTaks } from "components/all_tasks";
+import { FC, useState } from "react";
+import {TasksContext} from "contexts"
+import { task } from "@tasks/protos";
+import { AddUpdateTask } from "components/add_update_task";
 
 export const HomeScreen: FC = (_) => {
-	let [tasks_loaded, update_tasks_loaded] = useState(false);
-	let [tasks, update_tasks] = useState<string[]>([]);
+  let [opened_task, update_opened_task] = useState(-2);
+  let [tasks, update_tasks] = useState<task.Task[]>([]);
 
-	useEffect(() => {
-		setTimeout(() => {
-			update_tasks(["Task1", "Task2"]);
-			update_tasks_loaded(true);
-		}, 1000);
-	}, []);
-
-	return (
-		<div css={css`position:relative; height: 100vh; background-color:whitesmoke;`}>
-			{
-				tasks_loaded
-				? <Stack css={css`height:100%; margin: 8px;`}>
-					<StackItem width="100%">
-						<div>
-							{tasks.map((task) => (
-								<Card key={task}>
-									<div css={css`padding: 8px;`} >
-										{task}
-									</div>
-								</Card>
-							))}
-						</div>
-					</StackItem>
-					<StackItem position={new Position("right","bottom")}>
-						<Button>
-							Add
-						</Button>
-					</StackItem>
-				</Stack>
-				: <div css={css`width:100%; height:100vh;`}>
-					<CircularProgress css={css`position: absolute ;left:50%; top:50%;`}/>
-				</div>
-			}
-		</div>
-	);
+  return <TasksContext.Provider value={{
+      task_opened: opened_task,
+      set_opened_task: update_opened_task,
+      tasks : tasks,
+      update_tasks : update_tasks,
+    }}>
+    <div css={css`display:flex; flex-direction:row; position:relative; height:100vh; background-color: whitesmoke;`}>
+      <AllTaks css={css`flex-grow:1;`}/>
+      {opened_task > -2 && <AddUpdateTask css={css`flex-basis:30%;`}/>}
+    </div>
+  </TasksContext.Provider> ;
 };
 
 // class InheritedWidget<T>{

@@ -1,6 +1,5 @@
-/** @jsx jsx */
-import { ClassNames, css, jsx } from "@emotion/react";
-import React, { ReactNode, useRef, useContext, useEffect, useState, ReactNodeArray, ReactElement, FC, createContext } from "react";
+import { css } from "@emotion/react";
+import { ReactNode, useRef, useContext, useEffect, useState, ReactNodeArray, ReactElement, FC, createContext } from "react";
 
 function toStackItem(node: ReactNode): ReactNode {
   return ((node as ReactElement).type == undefined || (node as ReactElement).type != StackItem)

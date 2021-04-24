@@ -1,2 +1,2 @@
-export * from "./command_pb";
-export * from "./task_pb";
+export * from "./command";
+export * from "./task";
